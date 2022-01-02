@@ -1,8 +1,10 @@
 <script lang="ts">
 	import Card from './Card.svelte';
 	import * as secret from '../secrets.json';
+	import Navbar from './Navbar.svelte';
+	import 'bulma/css/bulma.css';
 	let value = "";
-	let result;
+	let result: Promise<any>;
 	let bound_button = false;
 	function handleSubmit(){
 		result = getResult()
@@ -30,33 +32,58 @@
 	}
 </script>
 
+<Navbar/>
 
-<form on:submit|preventDefault={handleSubmit}>
-	<textarea bind:value></textarea>
-	<button disabled={!value} type=submit>TL;DR</button>
-</form>
+<div class="container">
+	<h4>TL;DRify</h4>
+	<div class="form">
+	<form on:submit|preventDefault={handleSubmit} value="tldr-form">
+		<textarea bind:value placeholder="Enter text to shorten..."></textarea>
+		<button disabled={!value} type=submit>TL;DRify</button>
+	</form>
+</div>
 
-{#if result===undefined}
-	<p></p>
-{:else}
-	{#await result}
-		<div class="spinner-border mt-5" role="status">
-			<span class="sr-only">Loading...</span>
-		</div>
-		{:then verified}
+	{#if result===undefined}
+		<p></p>
+	{:else}
+		{#await result}
+			<!-- <div class="spinner-border mt-5" role="status">
+				<span class="sr-only">Loading...</span>
+			</div> -->
+			{:then verified}
 
-		<Card data={verified.summary} />
+			<Card data={verified.summary} />
 
-		{:catch error}
+			{:catch error}
 
-		<Card data={error.message}/>
-	{/await}
-{/if}
+			<Card data={error.message}/>
+		{/await}
+	{/if}
+</div>
 
 <style>
 	textarea {
+		resize: none;
 		display: block;
-		width: 300px;
+		width: 500px;
+		height: 250px;
 		max-width: 100%;
+		margin-left: auto;
+   		margin-right: auto;
+	}
+	.container {
+		display: flex;
+  		justify-content: center;
+		outline: dashed 1px black;
+		flex-direction: column;
+		align-items: center;
+	}
+	button {
+		float: right;
+	}
+	.form {
+		outline: 1px dashed red;
+		display: block;
+		width: 500px;
 	}
 </style>

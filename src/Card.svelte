@@ -5,6 +5,9 @@
     
 <div class="card mt-5" transition:fly="{{ y: 150, duration: 300 }}">
     <div class="card-body">
-        <h5 class="card-title">{data}</h5>
+        <textarea readonly>{data}</textarea>
     </div>
 </div>
+
+<style>
+</style>
