@@ -26,14 +26,10 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/free-brands-svg-icons": "^5.15.4",
-    "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "bulma": "^0.9.3",
-    "fontawesome-svelte": "^2.0.1",
     "rollup-plugin-postcss": "^4.0.2",
     "sirv-cli": "^1.0.0",
-    "svelma": "^0.4.5",
     "svelte-fa": "^2.4.0"
   }
 }
