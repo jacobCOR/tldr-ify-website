@@ -1,83 +1,83 @@
 <script lang="ts">
-    import Card from './Card.svelte';
-    export let secret;
-    let value = "";
-	let result: Promise<any>;
-	let bound_button = false;
-	function handleSubmit(){
-		result = getResult()
-		.catch( error => {
-			console.log(error.message);
-		});
-	}
+  import Card from "./Card.svelte";
+  export let secret;
+  let value = "";
+  let result: Promise<any>;
+  let bound_button = false;
+  function handleSubmit() {
+    result = getResult();
+  }
+  $: is_bound = bound_button ? "is-loading" : "";
 
+  function toggle_result() {
+    bound_button = !bound_button;
+  }
 
-	async function getResult(): Promise<any> {
-		const response = await fetch(`${secret.API_URI}?key=${secret.API_KEY}`,
-		{
-			headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json'
-			},
-			method: "POST",
-			body: JSON.stringify({"text": value})
-		});
-		if(!response.ok){
-			const message = `An error has occured: ${response.status}`;
-    		throw new Error(message);			
-		}
-		return await response.json();
-	}
+  async function getResult(): Promise<any> {
+    toggle_result();
+    const response = await fetch(`${secret.API_URI}?key=${secret.API_KEY}`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({ text: value }),
+    });
+    const json_response = await response.json();
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status}`;
+      toggle_result();
+      throw new Error(message);
+    }
+    toggle_result();
+    return json_response;
+  }
 </script>
+
 <div class="container">
-	<div class="form">
-	<form on:submit|preventDefault={handleSubmit} value="tldr-form">
-		<textarea bind:value placeholder="Enter text to shorten..."></textarea>
-		<button disabled={!value} type=submit>TL;DRify</button>
-	</form>
-</div>
+  <div class="form">
+    <form on:submit|preventDefault={handleSubmit} value="tldr-form">
+      <textarea
+        class="textarea is-primary has-fixed-size"
+        bind:value
+        placeholder="Enter text to shorten..."
+        rows="10"
+      />
+      <button
+        class="button is-primary {is_bound}"
+        type="submit"
+        disabled={!value}>TL;DRify</button
+      >
+    </form>
+  </div>
 
-	{#if result===undefined}
-		<p></p>
-	{:else}
-		{#await result}
-			<!-- <div class="spinner-border mt-5" role="status">
-				<span class="sr-only">Loading...</span>
-			</div> -->
-			{:then verified}
-
-			<Card data={verified.summary} />
-
-			{:catch error}
-
-			<Card data={error.message}/>
-		{/await}
-	{/if}
+  {#if result === undefined}
+    <p />
+  {:else}
+    <!-- svelte-ignore empty-block -->
+    {#await result then verified}
+      <Card data={verified.summary} />
+    {:catch error}
+      <div class="notification is-danger is-light">
+        <button class="delete" />
+        {error}
+      </div>
+    {/await}
+  {/if}
 </div>
 
 <style>
-	textarea {
-		resize: none;
-		display: block;
-		width: 500px;
-		height: 250px;
-		max-width: 100%;
-		margin-left: auto;
-   		margin-right: auto;
-	}
-	.container {
-		display: flex;
-  		justify-content: center;
-		outline: dashed 1px black;
-		flex-direction: column;
-		align-items: center;
-	}
-	button {
-		float: right;
-	}
-	.form {
-		outline: 1px dashed red;
-		display: block;
-		width: 500px;
-	}
+  button {
+    float: right;
+  }
+  .container {
+    height: 90%;
+  }
+  .form {
+    margin: 5%;
+  }
+  .form textarea {
+    margin-bottom: 3%;
+  }
 </style>
