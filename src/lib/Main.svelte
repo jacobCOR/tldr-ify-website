@@ -1,5 +1,6 @@
 <script lang="ts">
   import Card from "./Card.svelte";
+  import Notification from "./Notification.svelte";
   export let secret;
   let value = "";
   let result: Promise<any>;
@@ -23,15 +24,14 @@
       method: "POST",
       body: JSON.stringify({ text: value }),
     });
-    const json_response = await response.json();
 
     if (!response.ok) {
-      const message = `An error has occured: ${response.status}`;
+      const message = `An error has occured: ${response.status} ${response}`;
       toggle_result();
       throw new Error(message);
     }
     toggle_result();
-    return json_response;
+    return response.json();
   }
 </script>
 
@@ -43,6 +43,7 @@
         bind:value
         placeholder="Enter text to shorten..."
         rows="10"
+        maxlength="10000"
       />
       <button
         class="button is-primary {is_bound}"
@@ -55,14 +56,10 @@
   {#if result === undefined}
     <p />
   {:else}
-    <!-- svelte-ignore empty-block -->
     {#await result then verified}
       <Card data={verified.summary} />
     {:catch error}
-      <div class="notification is-danger is-light">
-        <button class="delete" />
-        {error}
-      </div>
+      <Notification type="is-danger">{error}</Notification>
     {/await}
   {/if}
 </div>

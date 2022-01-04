@@ -7,7 +7,7 @@ import sveltePreprocess from 'svelte-preprocess';
 import typescript from '@rollup/plugin-typescript';
 import css from 'rollup-plugin-css-only';
 import json from '@rollup/plugin-json';
-import postcss from 'rollup-plugin-postcss'
+import preprocess from 'svelte-preprocess';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -82,6 +82,7 @@ export default {
 		json({
 			compact: true
 		  })
+		
 	],
 	watch: {
 		clearScreen: false
