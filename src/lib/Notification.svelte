@@ -46,7 +46,7 @@
     /** Show icon on left-side of the notification. If set to <code>true</code>, icon will be determined from <code>type</code> property.
      * @svelte-prop {String|Boolean} [icon]
      * */
-    export let icon = ''
+    export let icon = false
   
     /** Fontawesome icon pack to use. By default the <code>Icon</code> component uses <code>fas</code>
      * @svelte-prop {String} [iconPack]

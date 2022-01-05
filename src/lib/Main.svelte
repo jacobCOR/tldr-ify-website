@@ -43,7 +43,6 @@
         bind:value
         placeholder="Enter text to shorten..."
         rows="10"
-        maxlength="10000"
       />
       <button
         class="button is-primary {is_bound}"
@@ -59,7 +58,11 @@
     {#await result then verified}
       <Card data={verified.summary} />
     {:catch error}
-      <Notification type="is-danger">{error}</Notification>
+    <div class="notification-styled">
+      <Notification type="is-danger">
+        {error}
+      </Notification>
+      </div>
     {/await}
   {/if}
 </div>
@@ -69,12 +72,17 @@
     float: right;
   }
   .container {
-    height: 90%;
+    height: 85%;
   }
   .form {
     margin: 5%;
   }
   .form textarea {
     margin-bottom: 3%;
+  }
+  .notification-styled {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 </style>
