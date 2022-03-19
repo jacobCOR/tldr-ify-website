@@ -20,8 +20,6 @@ After running the repo, hit the website http://localhost:5000.
 
 ## Authors
 
-Jacob Ortmann
-
 Github - [jacobCOR](https://github.com/jacobCOR)
 
 ## License
