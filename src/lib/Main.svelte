@@ -41,14 +41,13 @@
       <textarea
         class="textarea is-primary has-fixed-size"
         bind:value
-        placeholder="Enter text to shorten..."
+        placeholder="Enter text to summarize... (longer is better)"
         rows="10"
-        maxlength="10000"
       />
       <button
         class="button is-primary {is_bound}"
         type="submit"
-        disabled={!value}>TL;DRify</button
+        disabled={!value}>TLDRify</button
       >
     </form>
   </div>
@@ -59,7 +58,11 @@
     {#await result then verified}
       <Card data={verified.summary} />
     {:catch error}
-      <Notification type="is-danger">{error}</Notification>
+    <div class="notification-styled">
+      <Notification type="is-danger">
+        {error}
+      </Notification>
+      </div>
     {/await}
   {/if}
 </div>
@@ -69,12 +72,17 @@
     float: right;
   }
   .container {
-    height: 90%;
+    height: 85%;
   }
   .form {
     margin: 5%;
   }
   .form textarea {
     margin-bottom: 3%;
+  }
+  .notification-styled {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 </style>
