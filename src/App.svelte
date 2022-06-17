@@ -6,8 +6,6 @@
   import Footer from "./lib/Footer.svelte";
 </script>
 
-<div>
-  <Navbar />
-  <Main {secret} />
-  <Footer />
-</div>
+<Navbar />
+<Main {secret} />
+<Footer />
