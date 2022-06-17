@@ -41,13 +41,13 @@
       <textarea
         class="textarea is-primary has-fixed-size"
         bind:value
-        placeholder="Enter text to shorten..."
+        placeholder="Enter text to summarize... (longer is better)"
         rows="10"
       />
       <button
         class="button is-primary {is_bound}"
         type="submit"
-        disabled={!value}>TL;DRify</button
+        disabled={!value}>TLDRify</button
       >
     </form>
   </div>
